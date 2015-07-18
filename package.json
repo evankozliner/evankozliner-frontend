@@ -4,13 +4,19 @@
   "version": "0.0.0",
   "author": "Wilfred Denton @wilfreddenton",
   "dependencies": {
+    "flux": "^2.0.3",
     "react": "^0.13.3",
     "react-async": "^2.1.0",
-    "react-router-component": "^0.25.4"
+    "react-router": "^0.13.3"
   },
   "devDependencies": {
     "browserify": "^10.2.4",
     "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-livereload": "^3.8.0",
+    "gulp-rimraf": "^0.1.1",
+    "gulp-sass": "^2.0.4",
+    "gulp-watch": "^4.3.3",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0"
   }
