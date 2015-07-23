@@ -16,7 +16,6 @@ app.use(cookieParser());
 
 app.use(express.static(__dirname + '/dist'));
 
-
 server.listen(app.get('port'), function() {
   console.log("server starting on port: " + app.get('port'));
 });
