@@ -6,9 +6,7 @@ var RouteHandler = Router.RouteHandler;
 var App = React.createClass({
   render: function() {
     return (
-      <div id="wrapper">
-        <RouteHandler {...this.props} />
-      </div>
+      <RouteHandler {...this.props} />
     );
   }
 });

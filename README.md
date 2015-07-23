@@ -14,5 +14,7 @@ View the app at `http://localhost:4200`
 
 The Flux implementation used is [Biff](https://github.com/FormidableLabs/biff)
 
+The router used is [React Router](https://github.com/rackt/react-router)
+
 
 
