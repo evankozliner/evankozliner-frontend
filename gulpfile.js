@@ -49,7 +49,8 @@ gulp.task('sass', function() {
 
 gulp.task('default', function() {
   livereload.listen();
-  // nodemon({script: 'app.js', ignore: ['src/*', 'dist/*', 'gulpfile.js']});
+  nodemon({script: 'server.js', ignore: ['src/*', 'dist/*', 'gulpfile.js']});
+  gulp.start('browserify', 'sass', 'copy');
   gulp.watch('src/scripts/**/*.js', ['browserify']);
   gulp.watch('src/index.html', ['copy']);
   watch('src/assets/**/*.*', function() {
