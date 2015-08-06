@@ -1,5 +1,5 @@
-var biff = require('../dispatchers/biff')
-,   _ = require('lodash');
+import buff from '../dispatchers/biff';
+import _ from 'lodash';
 
 var ExampleActions = biff.createActions({
   loadExamples: function(examples) {
@@ -11,4 +11,4 @@ var ExampleActions = biff.createActions({
   }
 });
 
-module.exports = ExampleActions;
+export default ExampleActions;

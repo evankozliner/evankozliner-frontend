@@ -1,4 +1,5 @@
 var gulp = require('gulp')
+,   uglify = require('gulp-uglify')
 ,   sass = require('gulp-sass')
 ,   livereload = require('gulp-livereload')
 ,   notify = require('gulp-notify')
@@ -6,24 +7,27 @@ var gulp = require('gulp')
 ,   rimraf = require('gulp-rimraf')
 ,   jshint = require('gulp-jshint')
 ,   nodemon = require('gulp-nodemon')
-,   browserify = require('browserify')
-,   reactify = require('reactify')
+,   webpack = require('webpack-stream')
+,   webpackConfig = require('./webpack.config.js')
+,   buffer = require('vinyl-buffer')
 ,   source = require('vinyl-source-stream');
 
-gulp.task('browserify', function() {
-  browserify('src/scripts/main.js')
-    .transform('reactify')
-    .bundle().on('error', function(err) {console.log(err)})
-    .pipe(source('main.js'))
+// gulp.task('browserify', function() {
+//   browserify('src/scripts/main.js')
+//     .transform('reactify')
+//     .bundle().on('error', function(err) { console.log(err.description + ' | ' + err.name + ' | ' + 'line number: ' + err.lineNumber + ', column: ' + err.column) })
+//     .pipe(source('main.js'))
+//     .pipe(gulp.dest('dist/scripts'))
+//     .pipe(livereload());
+// });
+
+gulp.task('build', function() {
+  gulp.src('src/scripts/main.js')
+    .pipe(webpack(webpackConfig))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('dist/scripts'))
     .pipe(livereload());
-});
-
-gulp.task('lint', function() {
-  return gulp.src('src/scripts/**/*.*')
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('cleanAssets', function() {
@@ -42,16 +46,21 @@ gulp.task('copy', ['cleanAssets'], function() {
 
 gulp.task('sass', function() {
   gulp.src('src/stylesheets/main.scss')
-    .pipe(sass({outputStyle: 'expanded'}))
+    .pipe(sass({
+        outputStyle: 'compressed'
+      }).on('error', function (err) {
+        console.log(err);
+      })
+    )
     .pipe(gulp.dest('dist/stylesheets'))
     .pipe(livereload());
 });
 
 gulp.task('default', function() {
   livereload.listen();
-  nodemon({script: 'server.js', ignore: ['src/*', 'dist/*', 'gulpfile.js']});
-  gulp.start('browserify', 'sass', 'copy');
-  gulp.watch('src/scripts/**/*.js', ['browserify']);
+  nodemon({script: 'server.js', ignore: ['src/*', 'dist/*', 'gulpfile.js', 'node_modules/**']});
+  gulp.start('build', 'sass', 'copy');
+  gulp.watch('src/scripts/**/*.js', ['build']);
   gulp.watch('src/index.html', ['copy']);
   watch('src/assets/**/*.*', function() {
     gulp.start('copy');

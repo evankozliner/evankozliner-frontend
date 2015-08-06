@@ -1,8 +1,8 @@
-var React = require('react')
-,   Router = require('react-router')
-,   App = require('./components/app')
-,   Home = require("./components/home")
-,   NotFound = require('./components/not-found');
+import React from 'react';
+import Router from 'react-router';
+import App from './components/app';
+import Home from './components/home';
+import NotFound from './components/not-found';
 
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
@@ -15,7 +15,7 @@ var routes = (
   </Route>
 );
 
-module.exports = {
+export default {
   run: function (el) {
     Router.run(routes, function (Handler, state) {
       var params = state.params;

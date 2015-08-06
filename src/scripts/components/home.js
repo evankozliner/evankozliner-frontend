@@ -1,11 +1,11 @@
-var React = require("react");
+import React from 'react';
 
-var Home = React.createClass({
-  render: function() {
+export default class Home extends React.Component {
+  render() {
     return (
-      <h1>React Boilerplate</h1>
+      <div className="home">
+        <h1>React Boilerplate</h1>
+      </div>
     );
   }
-});
-
-module.exports = Home;
+}

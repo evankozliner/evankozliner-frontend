@@ -1,5 +1,5 @@
-var biff = require('../dispatchers/biff')
-,   _ = require('lodash');
+import biff from '../dispatchers/biff';
+import _ from 'lodash';
 
 var _examples = [];
 
@@ -10,10 +10,10 @@ var ExampleStore = biff.createStore({
 }, function(payload) {
   switch(payload.actionType) {
     case "EXAMPLES_LOADED":
-      ExampleStore.loadReplies(payload.data);
+      ExampleStore.loadExamples(payload.data);
       ExampleStore.emitChange();
       break;
   }
 });
 
-module.exports = ExampleStore;
+export default ExampleStore;
