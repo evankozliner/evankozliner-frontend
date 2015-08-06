@@ -1,4 +1,4 @@
-import buff from '../dispatchers/biff';
+import biff from '../dispatchers/biff';
 import _ from 'lodash';
 
 var ExampleActions = biff.createActions({

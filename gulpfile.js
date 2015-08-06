@@ -12,15 +12,6 @@ var gulp = require('gulp')
 ,   buffer = require('vinyl-buffer')
 ,   source = require('vinyl-source-stream');
 
-// gulp.task('browserify', function() {
-//   browserify('src/scripts/main.js')
-//     .transform('reactify')
-//     .bundle().on('error', function(err) { console.log(err.description + ' | ' + err.name + ' | ' + 'line number: ' + err.lineNumber + ', column: ' + err.column) })
-//     .pipe(source('main.js'))
-//     .pipe(gulp.dest('dist/scripts'))
-//     .pipe(livereload());
-// });
-
 gulp.task('build', function() {
   gulp.src('src/scripts/main.js')
     .pipe(webpack(webpackConfig))
@@ -49,7 +40,7 @@ gulp.task('sass', function() {
     .pipe(sass({
         outputStyle: 'compressed'
       }).on('error', function (err) {
-        console.log(err);
+        console.log(err.name + ' | ' + err.message + ' | ' + 'line number: ' + err.lineNumber + ', column: ' + err.column);
       })
     )
     .pipe(gulp.dest('dist/stylesheets'))
