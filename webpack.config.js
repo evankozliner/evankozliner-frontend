@@ -1,11 +1,34 @@
+var path = require('path')
+,   webpack = require('webpack')
+,   HtmlWebpackPlugin = require('html-webpack-plugin')
+,   ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
-  entry: './src/scripts/main.js',
+  entry: [
+    'webpack-dev-server/client?http://localhost:3999',
+    'webpack/hot/only-dev-server',
+    './src/index.js',
+  ],
   output: {
-    filename: 'main.js'
+    filename: 'bundle.js',
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/assets/'
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('bundle.css', { allChunks: true }),
+    new HtmlWebpackPlugin({
+      title: 'React Boilerplate',
+      filename: 'index.html',
+      template: 'index.template.html',
+      favicon: path.join(__dirname, 'assets', 'images', 'favicon.png')
+    })
+  ],
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
+      { test: /\.css$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel'] }
     ]
   }
 }
