@@ -12,10 +12,16 @@ This command starts a webpack dev server, copies your assets, and compiles the j
 
 View the app at `http://localhost:3999`
 
+### Styles
+
+Styles are written at the component level with [Radium](http://projects.formidablelabs.com/radium/).
+
+Style variables are located in `/src/constants/style-constants.js`.
+
+Global CSS rules should be put in `/assets/stylesheets/style.css`.
+
 ### Info
 
 The Flux implementation used is [Redux](https://github.com/gaearon/redux)
 
 The router used is [React Router](https://github.com/rackt/react-router)
-
-Styles are written at the component level with [Radium](http://projects.formidablelabs.com/radium/). Global CSS rules should be put in `/assets/stylesheets/style.css`

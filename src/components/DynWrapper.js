@@ -19,7 +19,7 @@ export default class DynWrapper extends Component {
   }
 }
 
-let styles = {
+const styles = {
   base: {
     margin: '0 auto'
   }

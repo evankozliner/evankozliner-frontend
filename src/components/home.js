@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { ExampleButton, DynGridRow, DynGridColumn } from './'
+import { ExampleButton, DynFlexContainer as FlexContainer, DynFlexItem as FlexItem } from './'
 import * as ExampleActions from '../actions/example-actions'
 
 @connect(state => ({ example: state.example }))
@@ -15,14 +15,33 @@ export default class Home extends Component {
       <div className="home">
         <h1>React Boilerplate</h1>
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
-        <DynGridRow>
-          <DynGridColumn>
-            <span>This is an item</span>
-          </DynGridColumn>
-          <DynGridColumn>
-            <span>This is an item</span>
-          </DynGridColumn>
-        </DynGridRow>
+        <FlexContainer flexDirection="row" flexWrap="wrap" justifyContent="spaceAround" alignItems="center" alignContent="stretch">
+          <FlexItem width={30} widthMedium={100} stretchBreakpoint="small">
+            <span>item1</span>
+            <br />
+            <br />
+          </FlexItem>
+          <FlexItem width={30} widthMedium={100} stretchBreakpoint="small">
+            <span>item2</span>
+            <br />
+            <br />
+          </FlexItem>
+          <FlexItem width={30} widthMedium={100}>
+            <span>item3</span>
+            <br />
+            <br />
+          </FlexItem>
+          <FlexItem width={30} widthMedium={100}>
+            <span>item4</span>
+            <br />
+            <br />
+          </FlexItem>
+          <FlexItem width={30} widthMedium={100}>
+            <span>item5</span>
+            <br />
+            <br />
+          </FlexItem>
+        </FlexContainer>
       </div>
     )
   }
