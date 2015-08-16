@@ -28,6 +28,9 @@ export default class DynFlexItem extends Component {
     alignSelf: PropTypes.oneOf(['flexStart', 'flexEnd', 'center', 'baseline', 'stretch']),
     padding: PropTypes.string,
     flexGrowSmall: PropTypes.number,
+    flexGrowMedium: PropTypes.number,
+    flexGrowLarge: PropTypes.number,
+    flexGrowXlarge: PropTypes.number,
     breakpoint: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge'])
   }
   constructor(props) {
