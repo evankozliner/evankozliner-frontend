@@ -3,6 +3,9 @@ import Radium from 'radium'
 
 @Radium
 export default class ExampleItem extends Component {
+  static propTypes = {
+    children: PropTypes.any
+  }
   render() {
     return (
       <div style={[
@@ -10,7 +13,7 @@ export default class ExampleItem extends Component {
         ]}>
         {this.props.children}
       </div>
-    );
+    )
   }
 }
 

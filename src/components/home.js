@@ -7,10 +7,12 @@ import * as ExampleActions from '../actions/example-actions'
 @connect(state => ({ example: state.example }))
 export default class Home extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    example: PropTypes.any
   }
   render() {
     let { dispatch } = this.props
+    console.log(this.props.example)
     return (
       <div className="home">
         <h1>React Boilerplate</h1>

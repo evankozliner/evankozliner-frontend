@@ -12,7 +12,6 @@
   },
   "rules": {
     "camelcase": 2,
-    "consistent-return": 2,
     "dot-notation": 0,
     "eol-last": 2,
     "eqeqeq": 2,

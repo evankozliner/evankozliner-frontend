@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 
 function widthPropType(props, propName, componentName) {
-  if (props[propName] === undefined) return;
+  if (props[propName] === undefined) return
   // regex matches fractions (1/2, up to 11/12) and percentages (50%, up to 100%)
   if (!(/^(([2-9]|1[0-1]?)\/([2-9]|1[0-2]?))|(([1-9][0-9]?|100)%)$/.test(props[propName])
       && (typeof props[propName] === 'string' || props[propName] instanceof String))) {

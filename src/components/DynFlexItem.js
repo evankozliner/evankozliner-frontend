@@ -27,14 +27,14 @@ export default class DynFlexItem extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {stretch: false}
+    this.state = { stretch: false }
   }
   shouldComponentExpand() {
-    var windowWidth = window.innerWidth
+    let windowWidth = window.innerWidth
     if (windowWidth <= breakpointMap[this.props.stretchBreakpoint]) {
-      if (!this.state.stretch) this.setState({stretch: true})
+      if (!this.state.stretch) this.setState({ stretch: true })
     } else {
-      if (this.state.stretch) this.setState({stretch: false})
+      if (this.state.stretch) this.setState({ stretch: false })
     }
   }
   componentDidMount() {
@@ -53,9 +53,9 @@ export default class DynFlexItem extends Component {
     return (
       <div style={[
           styles.base,
-          this.props.width && {width: toPercent(this.props.width)},
-          this.props.order && {order: this.props.order},
-          this.props.flexGrow && {flexGrow: this.props.flexGrow},
+          this.props.width && { width: toPercent(this.props.width) },
+          this.props.order && { order: this.props.order },
+          this.props.flexGrow && { flexGrow: this.props.flexGrow },
           this.state.stretch && styles.stretch
         ]}>
         {this.props.children}

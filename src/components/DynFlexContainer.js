@@ -9,7 +9,8 @@ export default class DynFlexContainer extends Component {
     flexDirection: PropTypes.oneOf(['row', 'rowReverse', 'column', 'columnReverse']),
     flexWrap: PropTypes.oneOf(['nowrap', 'wrap', 'wrapReverse']),
     justifyContent: PropTypes.oneOf(['flexStart', 'flexEnd', 'center', 'spaceBetween', 'spaceAround']),
-    alignItems: PropTypes.oneOf(['stretch', 'flexStart', 'flexEnd', 'center', 'baseline'])
+    alignItems: PropTypes.oneOf(['stretch', 'flexStart', 'flexEnd', 'center', 'baseline']),
+    alignContent: PropTypes.oneOf(['stretch', 'flexState', 'flexEnd', 'center', 'spaceBetween', 'spaceAround'])
   }
   render() {
     return (
