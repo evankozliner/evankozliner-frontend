@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes, addons, Children } from 'react/addons'
+import { DynFlexItem as FlexItem } from './'
 import Radium from 'radium'
 
 @Radium
@@ -10,7 +11,21 @@ export default class DynFlexContainer extends Component {
     flexWrap: PropTypes.oneOf(['nowrap', 'wrap', 'wrapReverse']),
     justifyContent: PropTypes.oneOf(['flexStart', 'flexEnd', 'center', 'spaceBetween', 'spaceAround']),
     alignItems: PropTypes.oneOf(['stretch', 'flexStart', 'flexEnd', 'center', 'baseline']),
-    alignContent: PropTypes.oneOf(['stretch', 'flexState', 'flexEnd', 'center', 'spaceBetween', 'spaceAround'])
+    alignContent: PropTypes.oneOf(['stretch', 'flexState', 'flexEnd', 'center', 'spaceBetween', 'spaceAround']),
+    breakpoint: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge']),
+    gutter: PropTypes.string
+  }
+  renderChildren() {
+    return Children.map(this.props.children, (child) => {
+      if (child.type === FlexItem) {
+        let props = {}
+        if (this.props.breakpoint) props.breakpoint = this.props.breakpoint
+        if (this.props.gutter) props.padding = this.props.gutter
+        return addons.cloneWithProps(child, props)
+      } else {
+        return child
+      }
+    })
   }
   render() {
     return (
@@ -21,9 +36,10 @@ export default class DynFlexContainer extends Component {
           this.props.flexWrap && styles.flexWrap[this.props.flexWrap],
           this.props.justifyContent && styles.justifyContent[this.props.justifyContent],
           this.props.alignItems && styles.alignItems[this.props.alignItems],
-          this.props.alignContent && styles.alignContent[this.props.alignContent]
+          this.props.alignContent && styles.alignContent[this.props.alignContent],
+          this.props.gutter && { margin: `-${this.props.gutter} 0 ${this.props.gutter} -${this.props.gutter}` }
         ]}>
-        {this.props.children}
+        {(this.props.breakpoint) ? this.renderChildren() : this.props.children}
       </div>
     )
   }
@@ -31,7 +47,6 @@ export default class DynFlexContainer extends Component {
 
 const styles = {
   base: {
-    width: '100%',
     boxSizing: 'border-box',
     display: 'flex'
   },

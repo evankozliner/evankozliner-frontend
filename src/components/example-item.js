@@ -21,6 +21,5 @@ const styles = {
   base: {
     padding: 10,
     border: '1px solid #ccc',
-    marginBottom: 15
   }
 }

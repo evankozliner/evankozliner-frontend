@@ -18,24 +18,26 @@ export default class Home extends Component {
         <span>{this.props.example.toString()}</span>
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
         <h3>Flex Container</h3>
-        <FlexContainer flexDirection="row" flexWrap="wrap" justifyContent="spaceBetween" alignItems="center">
-          <FlexItem width={10} flexGrow={2} flexBasis="10px" alignSelf="flexStart" stretchBreakpoint="small">
+        <FlexContainer flexDirection="row" flexWrap="wrap" gutter="1em" breakpoint="xsmall">
+          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={3} flexGrowLarge={4} flexGrowXlarge={5}>
             <ExampleItem><span>Item 1</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={10} flexShrink={1} stretchBreakpoint="small">
+          <FlexItem flexGrow={2} flexGrowSmall={1}>
             <ExampleItem><span>Item 2</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={10} flexShrink={1} stretchBreakpoint="small">
+          <FlexItem>
             <ExampleItem><span>Item 3</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={10} stretchBreakpoint="small">
-            <ExampleItem><span>Item 4</span></ExampleItem>
+        </FlexContainer>
+        <FlexContainer flexDirection="row" flexWrap="wrap" breakpoint="small">
+          <FlexItem>
+            <ExampleItem><span>Item 1</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={31} stretchBreakpoint="small">
-            <ExampleItem><span>Item 5</span></ExampleItem>
+          <FlexItem flexGrow={2}>
+            <ExampleItem><span>Item 2</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={31} stretchBreakpoint="small">
-            <ExampleItem><span>Item 6</span></ExampleItem>
+          <FlexItem>
+            <ExampleItem><span>Item 3</span></ExampleItem>
           </FlexItem>
         </FlexContainer>
       </div>

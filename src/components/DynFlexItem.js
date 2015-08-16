@@ -26,28 +26,91 @@ export default class DynFlexItem extends Component {
     flexShrink: PropTypes.number,
     flexBasis: PropTypes.string,
     alignSelf: PropTypes.oneOf(['flexStart', 'flexEnd', 'center', 'baseline', 'stretch']),
-    stretchBreakpoint: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge'])
+    padding: PropTypes.string,
+    flexGrowSmall: PropTypes.number,
+    breakpoint: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge'])
   }
   constructor(props) {
     super(props)
-    this.state = { stretch: false }
+    this.state = { 
+      stretch: false,
+      flexGrowSmall: false,
+      flexGrowMedium: false,
+      flexGrowLarge: false,
+      flexGrowXlarge: false
+    }
   }
   shouldComponentExpand() {
     let windowWidth = window.innerWidth
-    if (windowWidth <= breakpointMap[this.props.stretchBreakpoint]) {
+    if (windowWidth <= breakpointMap[this.props.breakpoint]) {
       if (!this.state.stretch) this.setState({ stretch: true })
     } else {
       if (this.state.stretch) this.setState({ stretch: false })
     }
   }
+  shouldComponentFlexAtBreakpoint(breakpoint) {
+    let windowWidth = window.innerWidth
+    switch (breakpoint) {
+      case XLARGE_BREAKPOINT:
+        if (windowWidth >= XLARGE_BREAKPOINT && !this.state.flexGrowXlarge) {
+          this.setState({ flexGrowXlarge: true })
+        } else if (windowWidth < XLARGE_BREAKPOINT && this.state.flexGrowXlarge) {
+          this.setState({ flexGrowXlarge: false })
+        }
+        break
+      case LARGE_BREAKPOINT:
+        if (windowWidth >= LARGE_BREAKPOINT && !this.state.flexGrowLarge) {
+          this.setState({ flexGrowLarge: true })
+        } else if (windowWidth < LARGE_BREAKPOINT && this.state.flexGrowLarge) {
+          this.setState({ flexGrowLarge: false })
+        }
+        break
+      case MEDIUM_BREAKPOINT:
+        if (windowWidth >= MEDIUM_BREAKPOINT && !this.state.flexGrowMedium) {
+          this.setState({ flexGrowMedium: true })
+        } else if (windowWidth < MEDIUM_BREAKPOINT && this.state.flexGrowMedium) {
+          this.setState({ flexGrowMedium: false })
+        }
+        break
+      case SMALL_BREAKPOINT:
+        if (windowWidth >= SMALL_BREAKPOINT && !this.state.flexGrowSmall) {
+          this.setState({ flexGrowSmall: true })
+        } else if (windowWidth < SMALL_BREAKPOINT && this.state.flexGrowSmall) {
+          this.setState({ flexGrowSmall: false })
+        }
+        break
+      default:
+        
+    }
+  }
   componentDidMount() {
-    if (this.props.stretchBreakpoint) {
+    if (this.props.breakpoint) {
       this.shouldComponentExpand()
       window.addEventListener('resize', this.shouldComponentExpand.bind(this))
     }
+    if (this.props.flexGrowSmall) {
+      this.shouldComponentFlexAtBreakpoint(SMALL_BREAKPOINT)
+      window.addEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, SMALL_BREAKPOINT))
+    }
+    if (this.props.flexGrowMedium) {
+      this.shouldComponentFlexAtBreakpoint(MEDIUM_BREAKPOINT)  
+      window.addEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, MEDIUM_BREAKPOINT))
+    }
+    if (this.props.flexGrowLarge) {
+      this.shouldComponentFlexAtBreakpoint(LARGE_BREAKPOINT)
+      window.addEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, LARGE_BREAKPOINT))
+    }
+    if (this.props.flexGrowXlarge) {
+      this.shouldComponentFlexAtBreakpoint(XLARGE_BREAKPOINT)
+      window.addEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, XLARGE_BREAKPOINT))
+    }
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.shouldComponentExpand.bind(this))
+    if (this.props.breakpoint) window.removeEventListener('resize', this.shouldComponentExpand.bind(this))
+    if (this.props.flexGrowXlarge) window.removeEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, XLARGE_BREAKPOINT))
+    if (this.props.flexGrowLarge) window.removeEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, LARGE_BREAKPOINT))
+    if (this.props.flexGrowMedium) window.removeEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, MEDIUM_BREAKPOINT))
+    if (this.props.flexGrowSmall) window.removeEventListener('resize', this.shouldComponentFlexAtBreakpoint.bind(this, SMALL_BREAKPOINT))
   }
   render() {
     let toPercent = (width) => {
@@ -62,6 +125,11 @@ export default class DynFlexItem extends Component {
           this.props.flexShrink && { flexShrink: this.props.flexShrink },
           this.props.flexBasis && { flexBasis: this.props.flexBasis },
           this.props.alignSelf && styles.alignSelf[this.props.alignSelf],
+          this.props.padding && { padding: `${this.props.padding} 0 0 ${this.props.padding}` },
+          this.state.flexGrowSmall && { flexGrow: this.props.flexGrowSmall },
+          this.state.flexGrowMedium && { flexGrow: this.props.flexGrowMedium },
+          this.state.flexGrowLarge && { flexGrow: this.props.flexGrowLarge },
+          this.state.flexGrowXlarge && { flexGrow: this.props.flexGrowXlarge },
           this.state.stretch && styles.stretch
         ]}>
         {this.props.children}
@@ -72,7 +140,10 @@ export default class DynFlexItem extends Component {
 
 const styles = {
   base: {
-    transition: 'width 300ms'
+    transition: 'flex 300ms',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '0%'
   },
   alignSelf: {
     flexStart: {
@@ -92,6 +163,6 @@ const styles = {
     }
   },
   stretch: {
-    width: '100%'
+    flexBasis: '100%'
   }
 }
