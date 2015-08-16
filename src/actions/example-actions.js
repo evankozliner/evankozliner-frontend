@@ -8,7 +8,7 @@ export function exampleAction() {
 }
 
 export function exampleActionAsync() {
-  return dispatch => {
+  return (dispatch) => {
     delayPromise(300).then(() => {
       dispatch(exampleAction())
     })

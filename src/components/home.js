@@ -12,7 +12,6 @@ export default class Home extends Component {
   }
   render() {
     let { dispatch } = this.props
-    console.log(this.props.example)
     return (
       <div className="home">
         <h1>React Boilerplate</h1>
@@ -20,16 +19,16 @@ export default class Home extends Component {
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
         <h3>Flex Container</h3>
         <FlexContainer flexDirection="row" flexWrap="wrap" justifyContent="spaceBetween" alignItems="center">
-          <FlexItem width={31} stretchBreakpoint="small">
+          <FlexItem width={10} flexGrow={2} flexBasis="10px" alignSelf="flexStart" stretchBreakpoint="small">
             <ExampleItem><span>Item 1</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={31} stretchBreakpoint="small">
+          <FlexItem width={10} flexShrink={1} stretchBreakpoint="small">
             <ExampleItem><span>Item 2</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={31} stretchBreakpoint="small">
+          <FlexItem width={10} flexShrink={1} stretchBreakpoint="small">
             <ExampleItem><span>Item 3</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={31} stretchBreakpoint="small">
+          <FlexItem width={10} stretchBreakpoint="small">
             <ExampleItem><span>Item 4</span></ExampleItem>
           </FlexItem>
           <FlexItem width={31} stretchBreakpoint="small">
