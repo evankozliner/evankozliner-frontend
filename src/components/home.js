@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { ExampleButton, DynFlexContainer as FlexContainer, DynFlexItem as FlexItem } from './'
+import { ExampleButton, DynFlexContainer as FlexContainer, DynFlexItem as FlexItem, ExampleItem } from './'
 import * as ExampleActions from '../actions/example-actions'
 
 @connect(state => ({ example: state.example }))
@@ -14,32 +14,27 @@ export default class Home extends Component {
     return (
       <div className="home">
         <h1>React Boilerplate</h1>
+        <span>{this.props.example.toString()}</span>
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
-        <FlexContainer flexDirection="row" flexWrap="wrap" justifyContent="spaceAround" alignItems="center" alignContent="stretch">
-          <FlexItem width={30} widthMedium={100} stretchBreakpoint="small">
-            <span>item1</span>
-            <br />
-            <br />
+        <h3>Flex Container</h3>
+        <FlexContainer flexDirection="row" flexWrap="wrap" justifyContent="spaceBetween" alignItems="center">
+          <FlexItem width={31} stretchBreakpoint="small">
+            <ExampleItem><span>Item 1</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={30} widthMedium={100} stretchBreakpoint="small">
-            <span>item2</span>
-            <br />
-            <br />
+          <FlexItem width={31} stretchBreakpoint="small">
+            <ExampleItem><span>Item 2</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={30} widthMedium={100}>
-            <span>item3</span>
-            <br />
-            <br />
+          <FlexItem width={31} stretchBreakpoint="small">
+            <ExampleItem><span>Item 3</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={30} widthMedium={100}>
-            <span>item4</span>
-            <br />
-            <br />
+          <FlexItem width={31} stretchBreakpoint="small">
+            <ExampleItem><span>Item 4</span></ExampleItem>
           </FlexItem>
-          <FlexItem width={30} widthMedium={100}>
-            <span>item5</span>
-            <br />
-            <br />
+          <FlexItem width={31} stretchBreakpoint="small">
+            <ExampleItem><span>Item 5</span></ExampleItem>
+          </FlexItem>
+          <FlexItem width={31} stretchBreakpoint="small">
+            <ExampleItem><span>Item 6</span></ExampleItem>
           </FlexItem>
         </FlexContainer>
       </div>

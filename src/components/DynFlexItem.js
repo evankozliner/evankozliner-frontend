@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import ResponsiveMixin from 'react-responsive-mixin'
 import Radium from 'radium'
 import { connect } from 'react-redux'
-import * as DynActions from '../actions/dyn-actions'
 import { XSMALL_BREAKPOINT,
          SMALL_BREAKPOINT,
          MEDIUM_BREAKPOINT,
@@ -17,32 +16,35 @@ const breakpointMap = {
   xlarge: XLARGE_BREAKPOINT
 }
 
-@connect(state => ({dynStretch: state.dynStretch}))
 @Radium
 export default class DynFlexItem extends Component {
   static propTypes = {
     children: PropTypes.any,
     width: PropTypes.number,
-    widthMedium: PropTypes.number,
     order: PropTypes.number,
     flexGrow: PropTypes.number,
     stretchBreakpoint: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge'])
   }
+  constructor(props) {
+    super(props)
+    this.state = {stretch: false}
+  }
   shouldComponentExpand() {
     var windowWidth = window.innerWidth
     if (windowWidth <= breakpointMap[this.props.stretchBreakpoint]) {
-      if (!this.props.dynStretch) DynActions.truthifyStretch()
+      if (!this.state.stretch) this.setState({stretch: true})
     } else {
-      if (this.props.dynStretch) DynActions.falsifyStretch()
+      if (this.state.stretch) this.setState({stretch: false})
     }
   }
   componentDidMount() {
     if (this.props.stretchBreakpoint) {
       this.shouldComponentExpand()
-      window.addEventListener('resize', e => {
-        this.shouldComponentExpand()
-      })
+      window.addEventListener('resize', this.shouldComponentExpand.bind(this))
     }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.shouldComponentExpand.bind(this))
   }
   render() {
     function toPercent(width) {
@@ -54,7 +56,7 @@ export default class DynFlexItem extends Component {
           this.props.width && {width: toPercent(this.props.width)},
           this.props.order && {order: this.props.order},
           this.props.flexGrow && {flexGrow: this.props.flexGrow},
-          this.props.dynStretch && styles.stretch
+          this.state.stretch && styles.stretch
         ]}>
         {this.props.children}
       </div>
@@ -64,10 +66,7 @@ export default class DynFlexItem extends Component {
 
 const styles = {
   base: {
-    backgroundColor: 'white',
-    ':hover': {
-      boxShadow: '0 0 3px rgba(0,0,0,0.5)'
-    }
+    transition: 'width 300ms'
   },
   stretch: {
     width: '100%'

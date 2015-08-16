@@ -2,13 +2,20 @@ import '../assets/stylesheets/style.css'
 import React, { Component } from 'react'
 import { Router, Route } from 'react-router'
 import HashHistory from 'react-router/lib/HashHistory'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, compose } from 'redux'
+import { devTools, persistState } from 'redux-devtools'
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
 import { Provider } from 'react-redux'
 import { App, Home } from './components'
 import * as reducers from './stores'
 
 const reducer = combineReducers(reducers)
-const store = createStore(reducer)
+const finalCreateStore = compose(
+  devTools(),
+  persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+  createStore
+)
+const store = finalCreateStore(reducer)
 
 function renderRoutes() {
   return (
@@ -23,9 +30,14 @@ function renderRoutes() {
 export default class Root extends Component {
   render() {
     return (
-      <Provider store={store}>
-        {renderRoutes}
-      </Provider>
+      <div>
+        <Provider store={store}>
+          {renderRoutes}
+        </Provider>
+        <DebugPanel left top >
+          <DevTools store={store} monitor={LogMonitor} />
+        </DebugPanel>
+      </div>
     )
   }
 }

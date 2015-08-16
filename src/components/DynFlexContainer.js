@@ -31,8 +31,6 @@ export default class DynFlexContainer extends Component {
 const styles = {
   base: {
     width: '100%',
-    backgroundColor: '#eee',
-    minHeight: 200,
     boxSizing: 'border-box',
     display: 'flex'
   },
