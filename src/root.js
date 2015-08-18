@@ -34,7 +34,7 @@ export default class Root extends Component {
         <Provider store={store}>
           {renderRoutes}
         </Provider>
-        <DebugPanel left top >
+        <DebugPanel>
           <DevTools store={store} monitor={LogMonitor} />
         </DebugPanel>
       </div>
