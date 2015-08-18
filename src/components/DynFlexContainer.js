@@ -1,6 +1,19 @@
 import React, { Component, PropTypes, addons, Children } from 'react/addons'
 import { DynFlexItem as FlexItem } from './'
 import Radium from 'radium'
+import { XSMALL_BREAKPOINT,
+         SMALL_BREAKPOINT,
+         MEDIUM_BREAKPOINT,
+         LARGE_BREAKPOINT,
+         XLARGE_BREAKPOINT } from '../constants/style-constants'
+
+const breakpointMap = {
+  xsmall: XSMALL_BREAKPOINT,
+  small: SMALL_BREAKPOINT,
+  medium: MEDIUM_BREAKPOINT,
+  large: LARGE_BREAKPOINT,
+  xlarge: XLARGE_BREAKPOINT
+}
 
 @Radium
 export default class DynFlexContainer extends Component {
@@ -15,17 +28,39 @@ export default class DynFlexContainer extends Component {
     breakpoint: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge']),
     gutter: PropTypes.string
   }
+  constructor(props) {
+    super(props)
+    this.state = {
+      collapse: false
+    }
+  }
   renderChildren() {
     return Children.map(this.props.children, (child) => {
       if (child.type === FlexItem) {
         let props = {}
-        if (this.props.breakpoint) props.breakpoint = this.props.breakpoint
         if (this.props.gutter) props.padding = this.props.gutter
         return addons.cloneWithProps(child, props)
       } else {
         return child
       }
     })
+  }
+  shouldComponentCollapse() {
+    let windowWidth = window.innerWidth
+    if (windowWidth <= breakpointMap[this.props.breakpoint]) {
+      if (!this.state.collapse) this.setState({ collapse: true })
+    } else {
+      if (this.state.collapse) this.setState({ collapse: false })
+    }
+  }
+  componentDidMount() {
+    if (this.props.breakpoint) {
+      this.shouldComponentCollapse()
+      window.addEventListener('resize', this.shouldComponentCollapse.bind(this))
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.breakpoint) window.removeEventListener('resize', this.shouldComponentCollapse.bind(this))
   }
   render() {
     return (
@@ -37,7 +72,8 @@ export default class DynFlexContainer extends Component {
           this.props.justifyContent && styles.justifyContent[this.props.justifyContent],
           this.props.alignItems && styles.alignItems[this.props.alignItems],
           this.props.alignContent && styles.alignContent[this.props.alignContent],
-          this.props.gutter && { margin: `-${this.props.gutter} 0 ${this.props.gutter} -${this.props.gutter}` }
+          this.props.gutter && { margin: `-${this.props.gutter} 0 ${this.props.gutter} -${this.props.gutter}` },
+          this.state.collapse && styles.collapse
         ]}>
         {(this.props.breakpoint) ? this.renderChildren() : this.props.children}
       </div>
@@ -48,7 +84,9 @@ export default class DynFlexContainer extends Component {
 const styles = {
   base: {
     boxSizing: 'border-box',
-    display: 'flex'
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row'
   },
   inline: {
     display: 'inline-flex'
@@ -131,5 +169,8 @@ const styles = {
     spaceAround: {
       alignContent: 'space-around'
     }
+  },
+  collapse: {
+    flexDirection: 'column'
   }
 }

@@ -1,10 +1,13 @@
 import React, { PropTypes, Component } from 'react'
+import Radium from 'radium'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { ExampleButton, DynFlexContainer as FlexContainer, DynFlexItem as FlexItem, ExampleItem } from './'
+import { ExampleButton, DynFlexContainer as FlexContainer, DynFlexItem as FlexItem, DynHeading as Heading, ExampleItem } from './'
 import * as ExampleActions from '../actions/example-actions'
+import { GOLDEN_RATIO } from '../constants/style-constants'
 
 @connect(state => ({ example: state.example }))
+@Radium
 export default class Home extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -13,34 +16,56 @@ export default class Home extends Component {
   render() {
     let { dispatch } = this.props
     return (
-      <div className="home">
-        <h1>React Boilerplate</h1>
+      <div data-component="home">
+        <Heading base="1em" tag="h1" scale={GOLDEN_RATIO} weight='300' size={1} sizeSmall={2} sizeLarge={3}>dynamic</Heading>
+        <blockquote>React Dynamic[ally]...</blockquote>
         <span>{this.props.example.toString()}</span>
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
-        <h3>Flex Container</h3>
-        <FlexContainer flexDirection="row" flexWrap="wrap" gutter="1em" breakpoint="xsmall">
+        <h2>Layout</h2>
+        <h3>Dynamic Widths</h3>
+        <FlexContainer breakpoint="xsmall">
           <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}>
-            <ExampleItem><span>Item 1</span></ExampleItem>
+            <ExampleItem red />
           </FlexItem>
           <FlexItem flexGrow={1} flexGrowSmall={1} flexGrowMedium={3} flexGrowLarge={1} flexGrowXlarge={1}>
-            <ExampleItem><span>Item 2</span></ExampleItem>
+            <ExampleItem green />
           </FlexItem>
           <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={5} flexGrowXlarge={1}>
-            <ExampleItem><span>Item 3</span></ExampleItem>
+            <ExampleItem purple />
           </FlexItem>
         </FlexContainer>
-        <FlexContainer flexDirection="row" flexWrap="wrap" breakpoint="small">
-          <FlexItem>
-            <ExampleItem><span>Item 1</span></ExampleItem>
+        <h3>Dynamic Order</h3>
+        <FlexContainer breakpoint="xsmall">
+          <FlexItem order={3} orderSmall={1} orderMedium={1} orderLarge={2}>
+            <ExampleItem red />
           </FlexItem>
-          <FlexItem flexGrow={2}>
-            <ExampleItem><span>Item 2</span></ExampleItem>
+          <FlexItem order={2} orderSmall={2} orderMedium={3} orderLarge={1}>
+            <ExampleItem green />
           </FlexItem>
-          <FlexItem>
-            <ExampleItem><span>Item 3</span></ExampleItem>
+          <FlexItem order={1} orderSmall={3} orderMedium={2} orderLarge={3}>
+            <ExampleItem purple />
+          </FlexItem>
+        </FlexContainer>
+        <h3>Dynamic Widths and Order</h3>
+        <FlexContainer breakpoint="xsmall">
+          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}
+            order={3} orderSmall={1} orderMedium={1} orderLarge={2}>
+            <ExampleItem red />
+          </FlexItem>
+          <FlexItem flexGrow={1} flexGrowSmall={1} flexGrowMedium={3} flexGrowLarge={1} flexGrowXlarge={1}
+            order={2} orderSmall={2} orderMedium={3} orderLarge={1}>
+            <ExampleItem green />
+          </FlexItem>
+          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={5} flexGrowXlarge={1}
+            order={1} orderSmall={3} orderMedium={2} orderLarge={3}>
+            <ExampleItem purple />
           </FlexItem>
         </FlexContainer>
       </div>
     )
   }
+}
+
+const styles = {
+
 }
