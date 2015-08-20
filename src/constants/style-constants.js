@@ -1,5 +1,5 @@
 // widths
-export const MAX_WIDTH = 700
+export const MAX_WIDTH = 1280
 export const XSMALL_BREAKPOINT = 480
 export const SMALL_BREAKPOINT = 768
 export const MEDIUM_BREAKPOINT = 992

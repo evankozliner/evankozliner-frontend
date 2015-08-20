@@ -75,7 +75,7 @@ export default class DynFlexContainer extends Component {
           this.props.gutter && { margin: `-${this.props.gutter} 0 ${this.props.gutter} -${this.props.gutter}` },
           this.state.collapse && styles.collapse
         ]}>
-        {(this.props.breakpoint) ? this.renderChildren() : this.props.children}
+        {(this.props.gutter) ? this.renderChildren() : this.props.children}
       </div>
     )
   }

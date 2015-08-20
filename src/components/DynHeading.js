@@ -16,7 +16,7 @@ import { XSMALL_BREAKPOINT,
 // check to see if the string is a px or em value
 function isPxOrEm(props, propName, componentName) {
   if (!/\d+(em|px)$/.test(props[propName])) {
-    return new Error('Validation failed!');
+    return new Error('Validation failed!')
   }
 }
 

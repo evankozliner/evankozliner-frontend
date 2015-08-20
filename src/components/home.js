@@ -2,7 +2,14 @@ import React, { PropTypes, Component } from 'react'
 import Radium from 'radium'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { ExampleButton, DynFlexContainer as FlexContainer, DynFlexItem as FlexItem, DynHeading as Heading, DynBody as Body, ExampleItem } from './'
+import { ExampleButton,
+         DynFlexContainer as FlexContainer,
+         DynFlexItem as FlexItem,
+         DynHeading as Heading,
+         DynBody as Body,
+         ExampleInput,
+         HeadingTester,
+         ExampleItem } from './'
 import * as ExampleActions from '../actions/example-actions'
 import { GOLDEN_RATIO, MAJOR_SECOND } from '../constants/style-constants'
 
@@ -18,10 +25,12 @@ export default class Home extends Component {
     return (
       <div data-component="home">
         <Heading base="1em" tag="h1" scale={GOLDEN_RATIO} weight='300' size={1} sizeSmall={2} sizeLarge={3}>dynamic</Heading>
-        <Body base="1em" scale={MAJOR_SECOND} sizeSmall={1}>
-          dynamic is a collection of <a href="https://facebook.github.io/react/" title="react">React</a> components that enables you to build highly responsive web apps.
-        </Body>
         <blockquote>React Dynamic[ally]...</blockquote>
+        <Body base="1em" scale={MAJOR_SECOND} sizeSmall={1}>
+          dynamic is a collection of <a href="https://facebook.github.io/react/" title="react" target="_blank">React</a> components that enables you to build highly responsive web apps.
+        </Body>
+        <ExampleInput {...bindActionCreators(ExampleActions, dispatch)} />
+        <HeadingTester />
         <span>{this.props.example.toString()}</span>
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
         <h2>Layout</h2>
