@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { ExampleButton,
          DynFlexContainer as FlexContainer,
          DynFlexItem as FlexItem,
-         DynHeading as Heading,
+         DynTestHeading as Heading,
          DynBody as Body,
          ExampleInput,
          HeadingTester,
