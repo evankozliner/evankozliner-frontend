@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ExampleButton,
          DynFlexContainer as FlexContainer,
-         DynFlexItemTest as FlexItem,
+         DynFlexItem as FlexItem,
          DynHeading as Heading,
          DynBody as Body,
          HeadingTester,

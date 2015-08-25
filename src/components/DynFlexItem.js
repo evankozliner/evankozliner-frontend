@@ -5,7 +5,7 @@ import dynamic from './dynamic'
 
 @dynamic
 @Radium
-export default class DynFlexItemTest extends Component {
+export default class DynFlexItem extends Component {
   static propTypes = {
     children: PropTypes.any,
     width: PropTypes.number,
@@ -24,7 +24,8 @@ export default class DynFlexItemTest extends Component {
     orderSmall: PropTypes.number,
     orderMedium: PropTypes.number,
     orderLarge: PropTypes.number,
-    orderXlarge: PropTypes.number
+    orderXlarge: PropTypes.number,
+    data: PropTypes.object
   }
   render() {
     let toPercent = (width) => {
