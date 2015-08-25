@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ExampleButton,
          DynFlexContainer as FlexContainer,
-         DynFlexItem as FlexItem,
+         DynFlexItemTest as FlexItem,
          DynHeading as Heading,
          DynBody as Body,
          HeadingTester,
@@ -37,14 +37,14 @@ export default class Home extends Component {
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
         <h2>Layout</h2>
         <h3>Dynamic Widths</h3>
-        <FlexContainer collapse="xsmall">
-          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}>
+        <FlexContainer>
+          <FlexItem flexGrow={1} flexGrowXsmall={4} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}>
             <ExampleItem red />
           </FlexItem>
-          <FlexItem flexGrow={1} flexGrowSmall={1} flexGrowMedium={3} flexGrowLarge={1} flexGrowXlarge={1}>
+          <FlexItem flexGrow={1} flexGrowXsmall={1} flexGrowSmall={1} flexGrowMedium={3} flexGrowLarge={1} flexGrowXlarge={1}>
             <ExampleItem green />
           </FlexItem>
-          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={5} flexGrowXlarge={1}>
+          <FlexItem flexGrow={1} flexGrowXsmall={4} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={5} flexGrowXlarge={1}>
             <ExampleItem purple />
           </FlexItem>
         </FlexContainer>
@@ -61,17 +61,17 @@ export default class Home extends Component {
           </FlexItem>
         </FlexContainer>
         <h3>Dynamic Widths and Order</h3>
-        <FlexContainer collapse="xsmall">
-          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}
-            order={3} orderSmall={1} orderMedium={1} orderLarge={2}>
+        <FlexContainer>
+          <FlexItem flexGrow={1} flexGrowXsmall={4} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}
+            order={3} orderXsmall={2} orderSmall={1} orderMedium={1} orderLarge={2}>
             <ExampleItem red />
           </FlexItem>
-          <FlexItem flexGrow={1} flexGrowSmall={1} flexGrowMedium={3} flexGrowLarge={1} flexGrowXlarge={1}
-            order={2} orderSmall={2} orderMedium={3} orderLarge={1}>
+          <FlexItem flexGrow={1} flexGrowXsmall={1} flexGrowSmall={1} flexGrowMedium={3} flexGrowLarge={1} flexGrowXlarge={1}
+            order={2} orderXsmall={3} orderSmall={2} orderMedium={3} orderLarge={1}>
             <ExampleItem green />
           </FlexItem>
-          <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={5} flexGrowXlarge={1}
-            order={1} orderSmall={3} orderMedium={2} orderLarge={3}>
+          <FlexItem flexGrow={1} flexGrowXsmall={4} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={5} flexGrowXlarge={1}
+            order={1} orderXsmall={1} orderSmall={3} orderMedium={2} orderLarge={3}>
             <ExampleItem purple />
           </FlexItem>
         </FlexContainer>

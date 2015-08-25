@@ -75,12 +75,18 @@ export default function dynamic(ComposedComponent) {
           props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large|Xlarge)$/)
         } else if (windowWidth < XLARGE_BREAKPOINT && windowWidth >= LARGE_BREAKPOINT) {
           props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large)$/)
+          if (this.props.collapse === "xlarge") props.push('collapse')
         } else if (windowWidth < LARGE_BREAKPOINT && windowWidth >= MEDIUM_BREAKPOINT) {
           props = this.getDynamicProps(/^.*(Xsmall|Small|Medium)$/)
+          if (this.props.collapse === "large") props.push('collapse')
         } else if (windowWidth < MEDIUM_BREAKPOINT && windowWidth >= SMALL_BREAKPOINT) {
           props = this.getDynamicProps(/^.*(Xsmall|Small)$/)
+          if (this.props.collapse === "medium") props.push('collapse')
         } else if (windowWidth < SMALL_BREAKPOINT && windowWidth >= XSMALL_BREAKPOINT) {
           props = this.getDynamicProps(/^.*(Xsmall)$/)
+          if (this.props.collapse === "small") props.push('collapse')
+        } else {
+          if (this.props.collapse === "xsmall") props.push('collapse')
         }
         props.forEach((prop) => {
           this.setState({ [prop]: true })
@@ -92,34 +98,53 @@ export default function dynamic(ComposedComponent) {
         } else if (windowWidth < XLARGE_BREAKPOINT && windowWidth >= LARGE_BREAKPOINT) {
           if (expanding) {
             props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large)$/)
+            if (this.props.collapse === "large") props.push('collapse')
           } else {
             props = this.getDynamicProps(/^.*(Xlarge)$/)
+            if (this.props.collapse === "xlarge") props.push('collapse')
           }
         } else if (windowWidth < LARGE_BREAKPOINT && windowWidth >= MEDIUM_BREAKPOINT) {
           if (expanding) {
             props = this.getDynamicProps(/^.*(Xsmall|Small|Medium)$/)
+            if (this.props.collapse === "medium") props.push('collapse')
           } else {
             props = this.getDynamicProps(/^.*(Large|Xlarge)$/)
+            if (this.props.collapse === "large") props.push('collapse')
           }
         } else if (windowWidth < MEDIUM_BREAKPOINT && windowWidth >= SMALL_BREAKPOINT) {
           if (expanding) {
             props = this.getDynamicProps(/^.*(Xsmall|Small)$/)
+            if (this.props.collapse === "small") props.push('collapse')
           } else {
             props = this.getDynamicProps(/^.*(Medium|Large|Xlarge)$/)
+            if (this.props.collapse === "medium") props.push('collapse')
           }
         } else if (windowWidth < SMALL_BREAKPOINT && windowWidth >= XSMALL_BREAKPOINT) {
           if (expanding) {
             props = this.getDynamicProps(/^.*(Xsmall)$/)
+            if (this.props.collapse === "xsmall") props.push('collapse')
           } else {
             props = this.getDynamicProps(/^.*(Small|Medium|Large|Xlarge)$/)
+            if (this.props.collapse === "small") props.push('collapse')
           }
         } else {
-          if (!expanding) {
+          if (expanding) {
+            
+          } else {
             props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large|Xlarge)$/)
+            if (this.props.collapse === "xsmall") props.push('collapse')
           }
         }
         props.forEach((prop) => {
-          if (this.state[prop] !== expanding) this.setState({ [prop]: expanding })
+          if (prop === 'collapse') {
+            if (expanding) {
+              this.setState({ [prop]: false })
+            } else {
+              this.setState({ [prop]: true })
+            }
+          } else {
+            if (this.state[prop] !== expanding) this.setState({ [prop]: expanding })
+          }
         })
       }
       this.setState({ prevWindowWidth: windowWidth })
