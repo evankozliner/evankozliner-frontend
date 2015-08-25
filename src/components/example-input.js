@@ -6,6 +6,10 @@ import { DynControlledInput as Input } from './'
 @connect(state => ({ exampleInputValue: state.exampleInputValue }))
 @Radium
 export default class ExampleInput extends Component {
+  static propTypes = {
+    exampleInputChange: PropTypes.func,
+    exampleInputValue: PropTypes.string
+  }
   handleInputChange(e) {
     this.props.exampleInputChange(e.target.value)
   }

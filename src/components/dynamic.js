@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import _ from 'lodash'
 import { XSMALL_BREAKPOINT,
          SMALL_BREAKPOINT,
          MEDIUM_BREAKPOINT,
@@ -13,76 +14,125 @@ const breakpointMap = {
   xlarge: XLARGE_BREAKPOINT
 }
 
+let prevWindowWidth = 0
+
 export default function dynamic(ComposedComponent) {
   return class Dynamic extends Component {
     static propTypes = ComposedComponent.propTypes
     static defaultProps = ComposedComponent.defaultProps
     constructor(props) {
       super(props)
+      this.handleResize = this.handleResize.bind(this)
       let state = {}
-      for (let key of Object.keys(props)) {
-        if (/.*(Small|Medium|Large|Xlarge)$/.test(key)) {
-          state[key] = false
-        }
+      for (let key of this.getDynamicProps()) {
+        state[key] = false
       }
+      state.prevWindowWidth = 0
       this.state = state
     }
-    shouldScale(keys, width, breakpoint) {
-      keys.forEach((key) => {
-        if (this.props[key]) {
-          if (width >= breakpoint && !this.state[key]) {
-            this.setState({ [key]: true })
-          } else if (width < breakpoint && this.state[key]) {
-            this.setState({ [key]: false })
+    getDynamicProps(match) {
+      return Object.keys(this.props).filter((key) => {
+        if (match) {
+          if (typeof match === 'string') {
+            if (match === key) return key
+          } else if (typeof match === 'object') { // regex
+            if (match.test(key)) return key
+          }
+        } else {
+          if (/^.*(Xsmall|Small|Medium|Large|Xlarge)$/.test(key)
+              || key === 'collapse') {
+            return key
           }
         }
       })
     }
-    shouldComponentScaleAtBreakpoint(breakpoint) {
-      let windowWidth = window.innerWidth
-      let propNames = []
-      switch (breakpoint) {
-        case SMALL_BREAKPOINT:
-          if (this.props.sizeSmall) propNames.push('sizeSmall')
-          this.shouldScale(propNames, windowWidth, SMALL_BREAKPOINT)
-          break
-        case MEDIUM_BREAKPOINT:
-          if (this.props.sizeMedium) propNames.push('sizeMedium')
-          this.shouldScale(propNames, windowWidth, MEDIUM_BREAKPOINT)
-          break
-        case LARGE_BREAKPOINT:
-          if (this.props.sizeLarge) propNames.push('sizeLarge')
-          this.shouldScale(propNames, windowWidth, LARGE_BREAKPOINT)
-          break
-        case XLARGE_BREAKPOINT:
-          if (this.props.sizeXlarge) propNames.push('sizeXlarge')
-          this.shouldScale(propNames, windowWidth, XLARGE_BREAKPOINT)
-          break
-        default:
-
+    shouldAdapt(key, width, breakpoint, type) {
+      if (type === 'max') {
+        if (width >= breakpoint && this.state[key]) {
+          this.setState({ [key]: false })
+        } else if (width < breakpoint && !this.state[key]) {
+          this.setState({ [key]: true })
+        }
+      } else {
+        if (width >= breakpoint && !this.state[key]) {
+          this.setState({ [key]: true })
+        } else if (width < breakpoint && this.state[key]) {
+          this.setState({ [key]: false })
+        }
       }
+    }
+    shouldComponentAdaptToBreakpoint(key, breakpoint, e) {
+      let windowWidth = window.innerWidth
+      let type = 'min'
+      if (key === 'collapse') type = 'max'
+      this.shouldAdapt(key, windowWidth, breakpoint, type)
+    }
+    handleResize(e) {
+      let windowWidth = window.innerWidth
+      let props = []
+      if (!e) { // initial call
+        if (windowWidth >= XLARGE_BREAKPOINT) {
+          props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large|Xlarge)$/)
+        } else if (windowWidth < XLARGE_BREAKPOINT && windowWidth >= LARGE_BREAKPOINT) {
+          props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large)$/)
+        } else if (windowWidth < LARGE_BREAKPOINT && windowWidth >= MEDIUM_BREAKPOINT) {
+          props = this.getDynamicProps(/^.*(Xsmall|Small|Medium)$/)
+        } else if (windowWidth < MEDIUM_BREAKPOINT && windowWidth >= SMALL_BREAKPOINT) {
+          props = this.getDynamicProps(/^.*(Xsmall|Small)$/)
+        } else if (windowWidth < SMALL_BREAKPOINT && windowWidth >= XSMALL_BREAKPOINT) {
+          props = this.getDynamicProps(/^.*(Xsmall)$/)
+        }
+        props.forEach((prop) => {
+          this.setState({ [prop]: true })
+        })
+      } else {
+        let expanding = (windowWidth - this.state.prevWindowWidth) > 0 ? true : false
+        if (windowWidth >= XLARGE_BREAKPOINT) {
+          if (expanding) props = this.getDynamicProps(/^.*(Xlarge)$/)
+        } else if (windowWidth < XLARGE_BREAKPOINT && windowWidth >= LARGE_BREAKPOINT) {
+          if (expanding) {
+            props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large)$/)
+          } else {
+            props = this.getDynamicProps(/^.*(Xlarge)$/)
+          }
+        } else if (windowWidth < LARGE_BREAKPOINT && windowWidth >= MEDIUM_BREAKPOINT) {
+          if (expanding) {
+            props = this.getDynamicProps(/^.*(Xsmall|Small|Medium)$/)
+          } else {
+            props = this.getDynamicProps(/^.*(Large|Xlarge)$/)
+          }
+        } else if (windowWidth < MEDIUM_BREAKPOINT && windowWidth >= SMALL_BREAKPOINT) {
+          if (expanding) {
+            props = this.getDynamicProps(/^.*(Xsmall|Small)$/)
+          } else {
+            props = this.getDynamicProps(/^.*(Medium|Large|Xlarge)$/)
+          }
+        } else if (windowWidth < SMALL_BREAKPOINT && windowWidth >= XSMALL_BREAKPOINT) {
+          if (expanding) {
+            props = this.getDynamicProps(/^.*(Xsmall)$/)
+          } else {
+            props = this.getDynamicProps(/^.*(Small|Medium|Large|Xlarge)$/)
+          }
+        } else {
+          if (!expanding) {
+            props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large|Xlarge)$/)
+          }
+        }
+        props.forEach((prop) => {
+          if (this.state[prop] !== expanding) this.setState({ [prop]: expanding })
+        })
+      }
+      this.setState({ prevWindowWidth: windowWidth })
     }
     componentDidMount() {
-      for (let key of Object.keys(this.props)) {
-        let matches = key.match(/.*(Small|Medium|Large|Xlarge)$/)
-        if (matches) {
-          let breakpoint = matches[1].toLowerCase()
-          this.shouldComponentScaleAtBreakpoint(breakpointMap[breakpoint])
-          window.addEventListener('resize', this.shouldComponentScaleAtBreakpoint.bind(this, breakpointMap[breakpoint]))
-        }
-      }
+      this.handleResize()
+      window.addEventListener('resize', this.handleResize)
     }
     componentWillUnmount() {
-      for (let key of Object.keys(this.props)) {
-        let matches = key.match(/.*(Small|Medium|Large|Xlarge)$/)
-        if (matches) {
-          let breakpoint = matches[1].toLowerCase()
-          window.removeEventListener('resize', this.shouldComponentScaleAtBreakpoint.bind(this, breakpointMap[breakpoint]))
-        }
-      }
+      window.removeEventListener('resize', this.handleResize)
     }
     render() {
-      return <ComposedComponent {...this.props} state={this.state} />
+      return <ComposedComponent {...this.props} data={this.state} />
     }
   }
 }

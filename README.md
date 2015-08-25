@@ -22,6 +22,8 @@ checkmarks indicate finished components
   - Block
   - Heading ✓
   - Body ✓
+  - Quote
+  - Code
   - Select
   - SelectItem
   - ControlledInput

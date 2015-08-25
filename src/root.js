@@ -6,7 +6,7 @@ import { createStore, combineReducers, compose } from 'redux'
 import { devTools, persistState } from 'redux-devtools'
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
 import { Provider } from 'react-redux'
-import { App, Home } from './components'
+import { App, Home, Test } from './components'
 import * as reducers from './stores'
 
 const reducer = combineReducers(reducers)
@@ -22,6 +22,7 @@ function renderRoutes() {
     <Router history={HashHistory}>
       <Route component={App}>
         <Route name="app" path="/" component={Home} />
+        <Route name="test" path="/test" component={Test} />
       </Route>
     </Router>
   )

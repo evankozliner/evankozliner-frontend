@@ -32,14 +32,14 @@ export default class DynControlledInput extends Component {
     this.setState({ styleFocus: false })
   }
   componentDidMount() {
-    var ele = findDOMNode(this)
+    let ele = findDOMNode(this)
     ele.addEventListener('mouseenter', this.mouseenterHandler.bind(this))
     ele.addEventListener('mouseleave', this.mouseleaveHandler.bind(this))
     ele.addEventListener('focus', this.focusHandler.bind(this))
     ele.addEventListener('blur', this.blurHandler.bind(this))
   }
   componentWillUnmount() {
-    var ele = findDOMNode(this)
+    let ele = findDOMNode(this)
     ele.removeEventListener('mouseenter', this.mouseenterHandler.bind(this))
     ele.removeEventListener('mouseleave', this.mouseleaveHandler.bind(this))
     ele.removeEventListener('focus', this.focusHandler.bind(this))

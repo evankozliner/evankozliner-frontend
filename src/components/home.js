@@ -1,14 +1,15 @@
 import React, { PropTypes, Component } from 'react'
 import Radium from 'radium'
+import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ExampleButton,
          DynFlexContainer as FlexContainer,
          DynFlexItem as FlexItem,
-         DynTestHeading as Heading,
+         DynHeading as Heading,
          DynBody as Body,
-         ExampleInput,
          HeadingTester,
+         ExampleInput,
          ExampleItem } from './'
 import * as ExampleActions from '../actions/example-actions'
 import { GOLDEN_RATIO, MAJOR_SECOND } from '../constants/style-constants'
@@ -24,9 +25,10 @@ export default class Home extends Component {
     let { dispatch } = this.props
     return (
       <div data-component="home">
-        <Heading base="1em" tag="h1" scale={GOLDEN_RATIO} weight='300' size={1} sizeSmall={2} sizeLarge={3}>dynamic</Heading>
+        <Heading base="1em" tag="h1" scale={GOLDEN_RATIO} weight='300' size={-1} sizeXsmall={0} sizeSmall={1} sizeMedium={2} sizeLarge={3} sizeXlarge={4}>dynamic</Heading>
         <blockquote>React Dynamic[ally]...</blockquote>
-        <Body base="1em" scale={MAJOR_SECOND} sizeSmall={1}>
+        <Link to="test">test</Link>
+        <Body base="1em" scale={MAJOR_SECOND} size={-1} sizeXsmall={0} sizeSmall={1} sizeMedium={2} sizeLarge={3} sizeXlarge={4}>
           dynamic is a collection of <a href="https://facebook.github.io/react/" title="react" target="_blank">React</a> components that enables you to build highly responsive web apps.
         </Body>
         <ExampleInput {...bindActionCreators(ExampleActions, dispatch)} />
@@ -35,7 +37,7 @@ export default class Home extends Component {
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
         <h2>Layout</h2>
         <h3>Dynamic Widths</h3>
-        <FlexContainer breakpoint="xsmall">
+        <FlexContainer collapse="xsmall">
           <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}>
             <ExampleItem red />
           </FlexItem>
@@ -47,7 +49,7 @@ export default class Home extends Component {
           </FlexItem>
         </FlexContainer>
         <h3>Dynamic Order</h3>
-        <FlexContainer breakpoint="xsmall">
+        <FlexContainer collapse="xsmall">
           <FlexItem order={3} orderSmall={1} orderMedium={1} orderLarge={2}>
             <ExampleItem red />
           </FlexItem>
@@ -59,7 +61,7 @@ export default class Home extends Component {
           </FlexItem>
         </FlexContainer>
         <h3>Dynamic Widths and Order</h3>
-        <FlexContainer breakpoint="xsmall">
+        <FlexContainer collapse="xsmall">
           <FlexItem flexGrow={1} flexGrowSmall={2} flexGrowMedium={1} flexGrowLarge={1} flexGrowXlarge={5}
             order={3} orderSmall={1} orderMedium={1} orderLarge={2}>
             <ExampleItem red />
