@@ -14,9 +14,13 @@ export default class DynFlexContainer extends Component {
     justifyContent: PropTypes.oneOf(['flexStart', 'flexEnd', 'center', 'spaceBetween', 'spaceAround']),
     alignItems: PropTypes.oneOf(['stretch', 'flexStart', 'flexEnd', 'center', 'baseline']),
     alignContent: PropTypes.oneOf(['stretch', 'flexState', 'flexEnd', 'center', 'spaceBetween', 'spaceAround']),
-    collapse: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge']),
-    data: PropTypes.object,
-    gutter: PropTypes.string
+    collapseXsmall: PropTypes.bool,
+    collapseSmall: PropTypes.bool,
+    collapseMedium: PropTypes.bool,
+    collapseLarge: PropTypes.bool,
+    collapseXlarge: PropTypes.bool,
+    gutter: PropTypes.string,
+    data: PropTypes.object
   }
   renderChildren() {
     return Children.map(this.props.children, (child) => {
@@ -40,7 +44,11 @@ export default class DynFlexContainer extends Component {
           this.props.alignItems && styles.alignItems[this.props.alignItems],
           this.props.alignContent && styles.alignContent[this.props.alignContent],
           this.props.gutter && { margin: `-${this.props.gutter} 0 ${this.props.gutter} -${this.props.gutter}` },
-          this.props.data.collapse && styles.collapse
+          (this.props.data.collapseXsmall
+          || this.props.data.collapseSmall
+          || this.props.data.collapseMedium
+          || this.props.data.collapseLarge
+          || this.props.data.collapseXlarge) && styles.collapse
         ]}>
         {(this.props.gutter) ? this.renderChildren() : this.props.children}
       </div>

@@ -49,7 +49,7 @@ export default class Home extends Component {
           </FlexItem>
         </FlexContainer>
         <h3>Dynamic Order</h3>
-        <FlexContainer collapse="xsmall">
+        <FlexContainer collapseSmall >
           <FlexItem order={3} orderSmall={1} orderMedium={1} orderLarge={2}>
             <ExampleItem red />
           </FlexItem>

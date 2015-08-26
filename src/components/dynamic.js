@@ -30,100 +30,42 @@ export default function dynamic(ComposedComponent) {
       state.prevWindowWidth = 0
       this.state = state
     }
-    getDynamicProps(match) {
-      return Object.keys(this.props).filter((key) => {
-        if (match) {
-          if (typeof match === 'string') {
-            if (match === key) return key
-          } else if (typeof match === 'object') { // regex
-            if (match.test(key)) return key
-          }
-        } else {
-          if (/^.*(Xsmall|Small|Medium|Large|Xlarge)$/.test(key)
-              || key === 'collapse') {
-            return key
-          }
-        }
-      })
-    }
-    shouldAdapt(key, width, breakpoint, type) {
-      if (type === 'max') {
-        if (width >= breakpoint && this.state[key]) {
-          this.setState({ [key]: false })
-        } else if (width < breakpoint && !this.state[key]) {
-          this.setState({ [key]: true })
-        }
-      } else {
-        if (width >= breakpoint && !this.state[key]) {
-          this.setState({ [key]: true })
-        } else if (width < breakpoint && this.state[key]) {
-          this.setState({ [key]: false })
-        }
-      }
-    }
-    shouldComponentAdaptToBreakpoint(key, breakpoint, e) {
-      let windowWidth = window.innerWidth
-      let type = 'min'
-      if (key === 'collapse') type = 'max'
-      this.shouldAdapt(key, windowWidth, breakpoint, type)
-    }
-    handleResize(e) {
-      let windowWidth = window.innerWidth
-      let props = []
-      let expanding = (windowWidth - this.state.prevWindowWidth) > 0 ? true : false
-      if (windowWidth >= XLARGE_BREAKPOINT) {
-        if (expanding) props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large|Xlarge)$/)
-      } else if (windowWidth < XLARGE_BREAKPOINT && windowWidth >= LARGE_BREAKPOINT) {
-        if (expanding) {
-          props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large)$/)
-          if (this.props.collapse === 'large') props.push('collapse')
-        } else {
-          props = this.getDynamicProps(/^.*(Xlarge)$/)
-          if (this.props.collapse === 'xlarge') props.push('collapse')
-        }
-      } else if (windowWidth < LARGE_BREAKPOINT && windowWidth >= MEDIUM_BREAKPOINT) {
-        if (expanding) {
-          props = this.getDynamicProps(/^.*(Xsmall|Small|Medium)$/)
-          if (this.props.collapse === 'medium') props.push('collapse')
-        } else {
-          props = this.getDynamicProps(/^.*(Large|Xlarge)$/)
-          if (this.props.collapse === 'large') props.push('collapse')
-        }
-      } else if (windowWidth < MEDIUM_BREAKPOINT && windowWidth >= SMALL_BREAKPOINT) {
-        if (expanding) {
-          props = this.getDynamicProps(/^.*(Xsmall|Small)$/)
-          if (this.props.collapse === 'small') props.push('collapse')
-        } else {
-          props = this.getDynamicProps(/^.*(Medium|Large|Xlarge)$/)
-          if (this.props.collapse === 'medium') props.push('collapse')
-        }
-      } else if (windowWidth < SMALL_BREAKPOINT && windowWidth >= XSMALL_BREAKPOINT) {
-        if (expanding) {
-          props = this.getDynamicProps(/^.*(Xsmall)$/)
-          if (this.props.collapse === 'xsmall') props.push('collapse')
-        } else {
-          props = this.getDynamicProps(/^.*(Small|Medium|Large|Xlarge)$/)
-          if (this.props.collapse === 'small') props.push('collapse')
-        }
-      } else {
-        if (expanding) {
-        } else {
-          props = this.getDynamicProps(/^.*(Xsmall|Small|Medium|Large|Xlarge)$/)
-          if (this.props.collapse === 'xsmall') props.push('collapse')
-        }
-      }
-      props.forEach((prop) => {
-        if (prop === 'collapse') {
-          if (expanding) {
-            this.setState({ [prop]: false })
+    getDynamicProps(split) {
+      let propNames = []
+      for (let prop in this.props) {
+        let propParts = prop.match(/^(.*)(Xsmall|Small|Medium|Large|Xlarge)$/)
+        if (propParts && propParts.length === 3) {
+          if (split) {
+            propNames.push([propParts[1], propParts[2]])
           } else {
-            this.setState({ [prop]: true })
+            propNames.push(propParts[0])
           }
-        } else {
-          if (this.state[prop] !== expanding) this.setState({ [prop]: expanding })
+        }
+      }
+      return propNames
+    }
+    handleResize() {
+      let windowWidth = window.innerWidth
+      let props = this.getDynamicProps(true)
+      let minWidth = 'order,size,flexGrow'
+      let maxWidth = 'collapse'
+      props.forEach((prop) => {
+        let breakpoint = breakpointMap[prop[1].toLowerCase()]
+        let propName = prop[0] + prop[1]
+        if (minWidth.indexOf(prop[0]) > -1) {
+          if (windowWidth >= breakpoint) {
+            if (!this.state[propName]) this.setState({ [propName]: true })
+          } else {
+            if (this.state[propName]) this.setState({ [propName]: false })
+          }
+        } else if (maxWidth.indexOf(prop[0]) > -1) {
+          if (windowWidth < breakpoint) {
+            if (!this.state[propName]) this.setState({ [propName]: true })
+          } else {
+            if (this.state[propName]) this.setState({ [propName]: false })
+          }
         }
       })
-      this.setState({ prevWindowWidth: windowWidth })
     }
     componentDidMount() {
       this.handleResize()

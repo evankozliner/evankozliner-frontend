@@ -18,7 +18,7 @@ export default class DynHeading {
     data: PropTypes.object // passed down from dynamic
   }
   render() {
-    let styles = {}
+    let styles = { transition: 'font-size 300ms' }
     let [ , base, baseUnit] = this.props.base.match(/^(\d+)(px|em)$/)
     styles.fontSize = computeFontSize(base, baseUnit, this.props.size, this.props.scale)
     if (this.props.weight) styles.fontWeight = this.props.weight

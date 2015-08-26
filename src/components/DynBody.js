@@ -41,6 +41,6 @@ export default class DynBody extends Component {
 
 const styles = {
   base: {
-
+    transition: 'font-size 300ms'
   }
 }
