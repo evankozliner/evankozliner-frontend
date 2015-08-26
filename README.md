@@ -12,28 +12,9 @@ This command starts a webpack dev server, copies your assets, and compiles the j
 
 View the app at `http://localhost:3999`
 
-### Components
-
-checkmarks indicate finished components
-
-  - FlexContainer ✓
-  - FlexItem ✓
-  - BlockContainer
-  - Block
-  - Heading ✓
-  - Body ✓
-  - Quote
-  - Code
-  - Select
-  - SelectItem
-  - ControlledInput
-  - ControlledTextarea (toggle for markdown)
-
 ### Styles
 
 Styles are written at the component level with [Radium](http://projects.formidablelabs.com/radium/).
-
-Style variables are located in `/src/constants/style-constants.js`.
 
 Global CSS rules should be put in `/assets/stylesheets/style.css`.
 
