@@ -10,7 +10,7 @@
     "start": "npm run build && node server.js"
   },
   "dependencies": {
-    "history": "^1.13.1",
+    "history": "1.13.1",
     "lodash": "^3.10.1",
     "marked": "^0.3.5",
     "moment": "^2.10.6",
