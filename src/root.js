@@ -1,44 +1,36 @@
-import '../assets/stylesheets/style.css'
 import React, { Component } from 'react'
-import { Router, Route } from 'react-router'
-import HashHistory from 'react-router/lib/HashHistory'
-import { createStore, combineReducers, compose } from 'redux'
-import { devTools, persistState } from 'redux-devtools'
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
+import { Router, Route, IndexRoute } from 'react-router'
+import createHashHistory from 'history/lib/createHashHistory'
 import { Provider } from 'react-redux'
-import { App, Home, Test } from './components'
-import * as reducers from './stores'
+import App from './components/app'
+import Home from './components/home'
+import NotFound from './components/not-found'
+import Test from './components/test'
+import configureStore from './store/configureStore'
+import DevTools from './DevTools'
 
-const reducer = combineReducers(reducers)
-const finalCreateStore = compose(
-  devTools(),
-  persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
-  createStore
+const history = createHashHistory()
+const store = configureStore()
+
+const routes = (
+	<Router history={history}>
+		<Route path="/" component={App}>
+			<IndexRoute component={Home} />
+			<Route path="test" component={Test} />
+		</Route>
+		<Route path="*" component={NotFound} />
+	</Router>
 )
-const store = finalCreateStore(reducer)
-
-function renderRoutes() {
-  return (
-    <Router history={HashHistory}>
-      <Route component={App}>
-        <Route name="app" path="/" component={Home} />
-        <Route name="test" path="/test" component={Test} />
-      </Route>
-    </Router>
-  )
-}
 
 export default class Root extends Component {
   render() {
     return (
-      <div>
-        <Provider store={store}>
-          {renderRoutes}
-        </Provider>
-        { false ? <DebugPanel right top bottom >
-          <DevTools store={store} monitor={LogMonitor} />
-        </DebugPanel> : ''}
-      </div>
+			<Provider store={store}>
+				<div>
+					{routes}
+					<DevTools />
+				</div>
+			</Provider>
     )
   }
 }
