@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { persistState } from 'redux-devtools'
 import rootReducer from '../reducers'
-import DevTools from '../DevTools'
+import DevTools from '../components/DevTools'
 
 const finalCreateStore = compose(
 	applyMiddleware(),

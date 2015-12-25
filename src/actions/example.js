@@ -1,4 +1,4 @@
-import { EXAMPLE_ACTION } from '../constants/action-type-constants'
+import { EXAMPLE_ACTION } from '../constants/ActionTypes'
 import { delayPromise } from '../promises'
 
 export function exampleAction() {

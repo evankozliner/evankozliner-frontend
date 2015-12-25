@@ -2,8 +2,8 @@ import React, { PropTypes, Component } from 'react'
 import Radium from 'radium'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import ExampleButton from './example-button'
-import * as ExampleActions from '../actions/example-actions'
+import ExampleButton from './ExampleButton'
+import * as ExampleActions from '../actions/example'
 
 @connect(state => ({ example: state.example }))
 @Radium

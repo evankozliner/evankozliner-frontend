@@ -1,4 +1,4 @@
-import { EXAMPLE_ACTION } from '../constants/action-type-constants'
+import { EXAMPLE_ACTION } from '../constants/ActionTypes'
 
 export default function example(state = false, action) {
   switch(action.type) {
