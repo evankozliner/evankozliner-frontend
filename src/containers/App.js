@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import CSSModules from 'react-css-modules'
 import '../styles/global.css'
 
 export default class App extends Component {
