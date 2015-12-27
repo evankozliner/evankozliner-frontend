@@ -6,7 +6,6 @@ import ExampleButton from './ExampleButton'
 import * as ExampleActions from '../actions/example'
 
 @connect(state => ({ example: state.example }))
-@Radium
 export default class Home extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -24,6 +23,3 @@ export default class Home extends Component {
   }
 }
 
-const styles = {
-
-}

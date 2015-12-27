@@ -27,8 +27,9 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.css$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      { test: /\.(css|scss)$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass') },
       { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel'] }
     ]
   }
 }
+
