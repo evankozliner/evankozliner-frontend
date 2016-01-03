@@ -8,6 +8,7 @@ import App from './containers/App'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
 import Test from './components/Test'
+import Single from './components/Single'
 
 const store = configureStore()
 const history = createHashHistory()
@@ -17,8 +18,12 @@ const routes = (
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
       <Route path="test" component={Test} />
+      <Route path="post" component={Single} >
+        <Route path="/post/:postId" component={Single} />
+      </Route>
     </Route>
     <Route path="*" component={NotFound} />
+
   </Router>
 )
 
@@ -33,4 +38,3 @@ if (process.env.NODE_ENV !== 'production') {
   const showDevTools = require('./showDevTools').default
   showDevTools(store)
 }
-

@@ -1,1 +1,2 @@
 export const EXAMPLE_ACTION = 'EXAMPLE_ACTION'
+export const INPUT_ACTION = 'INPUT_ACTION'

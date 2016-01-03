@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "Wilfred Denton @wilfreddenton",
   "scripts": {
-    "build": "npm run clean && npm run lint && webpack",
+    "build": "npm run clean && webpack",
     "clean": "rm -rf dist",
     "lint": "eslint src",
     "start": "npm run build && node server.js"
@@ -17,6 +17,7 @@
     "react": "^0.14.3",
     "react-css-modules": "^3.6.3",
     "react-dom": "^0.14.3",
+    "react-marked": "^0.3.1",
     "react-redux": "^4.0.3",
     "react-router": "^1.0.2",
     "redux": "^3.0.5",
