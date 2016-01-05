@@ -29,7 +29,6 @@ export default class Home extends Component {
     let { dispatch } = this.props
     return (
       <div data-component="home">
-        <h1>React Boilerplate</h1>
         <p>{this.props.example.toString()}</p>
         <ExampleButton {...bindActionCreators(ExampleActions, dispatch)} />
         <Link to="/test"> test </Link>

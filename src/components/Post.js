@@ -7,9 +7,18 @@ export default class Post extends Component {
 	}
 	render() {
 		let url = "/post/" + this.props.postInfo.id
+		let tags = []
+		for (var i = 0; i < this.props.postInfo.tags.length; i++) {
+			tags.push(<li>{this.props.postInfo.tags[i]}</li>)
+		}
 		return (
 			<Link to= { url }>
-				<li>{this.props.postInfo.id}</li>
+				<li>
+					<h3>{ this.props.postInfo.id }</h3>
+					<ul>
+						{ tags }
+					</ul>
+				</li>
 			</Link>
 		)
 	}
